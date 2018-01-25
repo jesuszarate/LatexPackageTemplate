@@ -1,15 +1,19 @@
 import os
 import sys
 
-def computeTrueCase(cwd, output_file, filename):
 
+def computeTrueCase(filename, output_file='output_files'):
     log = ''
     try:
         print ('Converting to PDF...')
 
         olddir = os.getcwd()
-        os.chdir(cwd)
-        print(os.getcwd())
+        # os.chdir(cwd)
+        # print(os.getcwd())
+
+        if not os.path.exists(output_file):
+            os.makedirs(output_file)
+
         log = os.popen('pdflatex --output-directory={0} {1}'.format(output_file, filename)).read()
         # os.popen('open {0}'.format('{0}/{1}pdf'.format(output_file, filename[:-3]))).read()
 
@@ -21,11 +25,11 @@ def computeTrueCase(cwd, output_file, filename):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 4:
+    if len(sys.argv) < 2:
         print('Please provide filename and output directory')
-        print('i.e. python toPDF.py HW0 output_files HW0.tex')
+        print('i.e. python toPDF.py HW0.tex')
         exit()
-    if len(sys.argv) > 4:
+    if len(sys.argv) > 2:
         print('Too many arguments provided')
         exit()
-    computeTrueCase(cwd=sys.argv[1], output_file=sys.argv[2], filename=sys.argv[3])
+    computeTrueCase(sys.argv[1])
